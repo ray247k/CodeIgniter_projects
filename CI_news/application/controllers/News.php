@@ -38,5 +38,31 @@ class News extends CI_Controller {
         $this->load->view('templates/header', $data);
         $this->load->view('news/view', $data);
         $this->load->view('templates/footer');
+    }
+    //將使用 Form 驗證程式庫檢查是否有表單被送出，以及送出的資料是否通過驗證規則。
+    public function create()
+    {
+        //載入 Form 輔助函式以及 Form Validation 程式庫
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $data['title'] = 'Create a news item';
+        //set_rules() 方法需要三個參數，輸入欄位的名稱，用來顯示在錯誤訊息中的名稱，以及規則。
+        //在這個例子中使用的規則，用來表示標題及內文都是必要的欄位。
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('text', 'text', 'required');
+
+        if ($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('templates/header', $data);
+            $this->load->view('news/create');
+            $this->load->view('templates/footer');
+
+        }
+        else
+        {
+            $this->news_model->set_news();
+            $this->load->view('news/success');
+        }
     }    
 }
