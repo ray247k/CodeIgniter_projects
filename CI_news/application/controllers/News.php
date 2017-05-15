@@ -18,12 +18,12 @@ class News extends CI_Controller {
         
         $data['news'] = $this->news_model->get_news();
         $data['title'] = '新聞模組';
-        //載入view並且把$data傳入
+        //載入view並且把$data傳入，新聞總覽頁面現在已經完成了
         $this->load->view('templates/header', $data);
         $this->load->view('news/index', $data);
         $this->load->view('templates/footer');
     }
-
+    //顯示個別的新聞的頁面，只需要在控制器增加一些程式並新增一個檢視
     public function view($slug = NULL)
     {
         $data['news_item'] = $this->news_model->get_news($slug);
